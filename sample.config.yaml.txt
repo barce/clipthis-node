@@ -1,0 +1,4 @@
+# sample yaml file.
+# 'cp sample.config.yaml config.yaml' to use
+API_URL: "chopin.herokuapp.com"
+API_PORT: 80
