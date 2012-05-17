@@ -64,8 +64,9 @@ app.post('/v1/upload', function(req, res) {
   env['res'] = res;
   env['event_queue'] = {};
   env['fields'] = [];
-  env['buffer'] = new Buffer(5242880);
+  env['buffer'] = new Buffer(8);
   env['bufpos'] = 0;
+  env['async_body'] = '';
 	
 
 	
@@ -77,9 +78,10 @@ app.post('/v1/upload', function(req, res) {
     console.log('on end');
     res.writeHead(200, {'Content-Type':'image/jpeg','Content-Transfer-Encoding':'binary',
       "Content-Disposition": "attachment; filename=\"test.jpg\";",
-      "Content-Length":env['buffer'].length
+      "Content-Length":env['async_body'].length
+      // "Content-Length":env['buffer'].length
     });
-    res.end(env['buffer'], 'binary');
+    res.end(env['async_body']);
     // res.writeHead(200, {'Content-Type':'text/html'});
     // res.write('<html><body><img src="data:image/jpeg;base64,')
     // res.write(new Buffer(env['async_body']).toString('base64'));
@@ -108,9 +110,10 @@ app.post('/v1/upload', function(req, res) {
 				// Pause receiving request data (until current chunk is written)
 				req.pause();
 				console.log(env['uuid'] + " request paused " );
+        env['async_body'] += data;
         // console.log(data);
-        env['buffer'].write(data, env['bufpos'], 'binary');
-        env['bufpos'] += Buffer.byteLength(data);
+        // env['buffer'].write(data, env['bufpos'], 'binary');
+        // env['bufpos'] += Buffer.byteLength(data);
 				console.log(env['uuid'] + " write triggered "   );
         req.resume();
 			});
