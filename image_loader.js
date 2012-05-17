@@ -8,7 +8,7 @@ var http = require('http'),
  	exec = require('child_process').exec,
  	app = require('express').createServer(),
   os = require('os'),
-  v8p = require('v8-profiler'),
+//   v8p = require('v8-profiler'),
   microtime = require('microtime'),
     server;
 
